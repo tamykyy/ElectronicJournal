@@ -3,7 +3,6 @@ package edu.team.electronic_journal.service.intefaces;
 import edu.team.electronic_journal.entity.Subject;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface SubjectService {
     public List<Subject> getAllSubjects();

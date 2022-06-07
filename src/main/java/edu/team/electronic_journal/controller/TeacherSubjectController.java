@@ -1,5 +1,6 @@
 package edu.team.electronic_journal.controller;
 
+import edu.team.electronic_journal.entity.Grade;
 import edu.team.electronic_journal.entity.TeacherSubject;
 import edu.team.electronic_journal.service.intefaces.TeacherSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,14 @@ public class TeacherSubjectController {
     public String showAllTeacherSubjects(Model model) {
         List<TeacherSubject> teacherSubjectList = teacherSubjectService.getAllTeacherSubjects();
         model.addAttribute("teacherSubjectList", teacherSubjectList);
-        return "all-teacherSubjects";
+        return null;
     }
 
     @GetMapping("/{id}")
     public TeacherSubject showTeacherSubject(Model model, @PathVariable("id") int id) {
         TeacherSubject teacherSubject = teacherSubjectService.getTeacherSubjectById(id);
         model.addAttribute("teacherSubject", teacherSubject);
-        return "one-teacherSubject";
+        return null;
     }
 
     @GetMapping("/add")

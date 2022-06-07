@@ -3,7 +3,6 @@ package edu.team.electronic_journal.service.intefaces;
 import edu.team.electronic_journal.entity.Grade;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GradeService {
     public List<Grade> getAllGrades();

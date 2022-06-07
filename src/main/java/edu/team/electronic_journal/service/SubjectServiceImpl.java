@@ -4,7 +4,7 @@ import edu.team.electronic_journal.dao.SubjectRepository;
 import edu.team.electronic_journal.entity.Subject;
 import edu.team.electronic_journal.service.intefaces.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Subject;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

@@ -20,14 +20,14 @@ public class GradeController {
     public String showAllGrades(Model model) {
         List<Grade> gradeList = gradeService.getAllGrades();
         model.addAttribute("gradeList", gradeList);
-        return "all-grades";
+        return null;
     }
 
     @GetMapping("/{id}")
     public Grade showGrade(Model model, @PathVariable("id") int id) {
         Grade grade = gradeService.getGradeById(id);
         model.addAttribute("grade", grade);
-        return "one-grade";
+        return null;
     }
 
     @GetMapping("/add")
@@ -35,7 +35,7 @@ public class GradeController {
         Grade grade = new Grade();
         model.addAttribute("grade", grade);
         model.addAttribute("method", RequestMethod.POST);
-        return "info-grade";
+        return null;
     }
 
     @GetMapping("/edit")
@@ -43,18 +43,18 @@ public class GradeController {
         Grade grade = gradeService.getGradeById(id);
         model.addAttribute("grade", grade);
         model.addAttribute("method", RequestMethod.PUT);
-        return "info-grade";
+        return null;
     }
 
     @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
     public String saveGrade(@ModelAttribute("grade") Grade grade) {
         gradeService.saveGrade(grade);
-        return "redirect:/grades";
+        return null;
     }
 
     @DeleteMapping("/delete")
     public String deleteGrades(@RequestParam("gradeId") int id) {
         gradeService.deleteGrade(id);
-        return "redirect:/grades";
+        return null;
     }
 }

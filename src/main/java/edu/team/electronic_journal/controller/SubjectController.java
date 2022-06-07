@@ -20,14 +20,14 @@ public class SubjectController {
     public String showAllSubjects(Model model) {
         List<Subject> subjectList = subjectService.getAllSubjects();
         model.addAttribute("subjectList", subjectList);
-        return "all-subjects";
+        return null;
     }
 
     @GetMapping("/{id}")
     public Subject showSubject(Model model, @PathVariable("id") int id) {
         Subject subject = subjectService.getSubjectById(id);
         model.addAttribute("subject", subject);
-        return "one-subject";
+        return null;
     }
 
     @GetMapping("/add")
@@ -35,7 +35,7 @@ public class SubjectController {
         Subject subject = new Subject();
         model.addAttribute("subject", subject);
         model.addAttribute("method", RequestMethod.POST);
-        return "info-subject";
+        return null;
     }
 
     @GetMapping("/edit")
@@ -43,18 +43,18 @@ public class SubjectController {
         Subject subject = subjectService.getSubjectById(id);
         model.addAttribute("subject", subject);
         model.addAttribute("method", RequestMethod.PUT);
-        return "info-subject";
+        return null;
     }
 
     @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
     public String saveSubject(@ModelAttribute("subject") Subject subject) {
         subjectService.saveSubject(subject);
-        return "redirect:/subjects";
+        return null;
     }
 
     @DeleteMapping("/delete")
     public String deleteSubjects(@RequestParam("subjectId") int id) {
         subjectService.deleteSubject(id);
-        return "redirect:/subject";
+        return null;
     }
 }
