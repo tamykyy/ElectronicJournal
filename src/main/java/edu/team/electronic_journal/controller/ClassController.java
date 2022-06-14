@@ -1,7 +1,5 @@
 package edu.team.electronic_journal.controller;
 
-
-
 import edu.team.electronic_journal.entity.Class;
 import edu.team.electronic_journal.service.intefaces.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import java.util.List;
 @Controller()
 @RequestMapping("/class")
 public class ClassController {
+
     @Autowired
     private ClassService classService;
 

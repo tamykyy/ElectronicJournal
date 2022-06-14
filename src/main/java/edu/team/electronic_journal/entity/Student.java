@@ -1,9 +1,11 @@
 package edu.team.electronic_journal.entity;
 
+import org.springframework.context.annotation.Role;
+
 import javax.persistence.*;
 
 @Entity @Table(name = "student")
-public class Student {
+public class Student implements IsUser{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     private int id;
@@ -14,20 +16,32 @@ public class Student {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "class_id")
-    private int class_id;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "class_id")
+    private Class class_id;
+
+    @Column(name = "role")
+    private String role;
 
     public Student() {
     }
 
-    public Student(String name, String surname, String phone, int class_id) {
+    public Student(String name, String surname, String email, String password, String phone, String role) {
         this.name = name;
         this.surname = surname;
+        this.email = email;
+        this.password = password;
         this.phone = phone;
-        this.class_id = class_id;
+        this.role = role;
     }
 
     public int getId() {
@@ -54,6 +68,22 @@ public class Student {
         this.surname = surname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -62,12 +92,20 @@ public class Student {
         this.phone = phone;
     }
 
-    public int getClass_id() {
+    public Class getClass_id() {
         return class_id;
     }
 
-    public void setClass_id(int class_id) {
+    public void setClass_id(Class class_id) {
         this.class_id = class_id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

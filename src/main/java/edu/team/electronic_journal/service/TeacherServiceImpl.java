@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TeacherServiceImpl implements TeacherService {
+
     @Autowired
     private TeacherRepository teacherRepository;
 
