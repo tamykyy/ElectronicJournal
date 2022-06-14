@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="grades" name="group" type="radio">
+    <input class="radio" id="subjects" name="group" type="radio">
+    <input class="radio" id="class" name="group" type="radio">
+    <input class="radio" id="school" name="group" type="radio">
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'" checked>
+
+    <div class="tabs">
+        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">Школа</label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="profile-panel">
+            <img src="/Icon.png" id="profile-image" style="float: left; width: 300px; height: 300px;">
+            <div style="float: left;">
+                <p id="profile-name" th:text="${userInfo.getName()} + ' ' + ${userInfo.getSurname()}"></p>
+                <p th:text="${userInfo.getEmail()}"></p>
+                <p th:text="${userInfo.getPhone()}"></p>
+                <p th:text="${userInfo.getClass_id()}"></p>
+                <!--                <p id="profile-class" th:text="${userInfo()}"></p>-->
+                <input type="button" value="change" onclick="window.location.href = 'me/profile/edit'"/>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

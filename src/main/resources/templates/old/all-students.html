@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Electronic journal</title>
+</head>
+<body>
+
+<h2>All students</h2>
+
+<table>
+
+    <tr>
+        <th>Імʼя&nbsp;&nbsp;</th>
+        <th>Прізвище&nbsp;&nbsp;</th>
+        <th>Телефон&nbsp;&nbsp;</th>
+        <th>Класс&nbsp;&nbsp;</th>
+    </tr>
+
+    <tr th:each="student : ${studentList}">
+        <td th:text="${student.getName()}">&nbsp;&nbsp;</td>
+        <td th:text="${student.getSurname()}">&nbsp;&nbsp;</td>
+        <td th:text="${student.getPhone()}">&nbsp;&nbsp;</td>
+        <td th:text="${student.getClass_id()}">}&nbsp;&nbsp;</td>
+        <td>
+            <a th:href="@{students/{id}(id=${student.getId()})}">More</a>
+        </td>
+        <td>
+            <a th:href="@{students/edit(studentId = ${student.getId()})}">Edit</a>
+        </td>
+    </tr>
+
+</table>
+
+<br>
+
+<input type="button" value="add" onclick="window.location.href = 'students/add'"/>
+
+</body>
+</html>
