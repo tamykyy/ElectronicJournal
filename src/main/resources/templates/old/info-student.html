@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editing</title>
+</head>
+<body>
+<h2>Employee info:</h2>
+<br>
+<form th:method="${method}" th:action="@{/students}" th:object="${userInfo}">
+
+    <input type="hidden" th:field="*{id}"/>
+
+    <p th:text="${method}"></p>
+    <br>
+    <label for="name">Імʼя --> </label>
+    <input type="text" th:field="*{name}" id="name"/>
+
+    <br><br>
+
+    <label for="surname">Прізвище --> </label>
+    <input type="text" th:field="*{surname}" id="surname"/>
+
+    <br><br>
+
+    <label for="phone">Телефон --> </label>
+    <input type="text" th:field="*{phone}" id="phone"/>
+
+    <br><br>
+
+    <input type="submit" value="Save"> <br>
+
+</form>
+</body>
+</html>

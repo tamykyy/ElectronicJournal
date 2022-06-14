@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<button>Log out</button>
+<div class="warpper">
+    <input class="radio" id="grades" name="group" type="radio">
+    <input class="radio" id="subjects" name="group" type="radio">
+    <input class="radio" id="class" name="group" type="radio">
+    <input class="radio" id="school" name="group" type="radio">
+    <input class="radio" id="profile" name="group" type="radio" checked>
+    
+    <div class="tabs">
+        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">Школа</label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+    
+    <div class="panels">
+        <div class="panel" id="grades-panel">
+            <div id="grades-name" style="float: left;">Залупко</div style="float: left;"><div>, </div><div id="grades-class" style="float: left;">5-Б</div>
+            <table id="grades-table"></table>
+        </div>
+
+        <div class="panel" id="subjects-panel">
+            <div style="float: left;">Предмети </div><div id="subjects-class" style="float: left;">5-Б</div><br><br>
+            <dd id="subjects-list">
+                <dt id="subjects-list-item">subject1</dt>
+                <dt id="subjects-list-item">subject2</dt>
+                <dt id="subjects-list-item">subject3</dt>
+                <dt id="subjects-list-item">subject4</dt>
+                <dt id="subjects-list-item">subject5</dt>
+            </dd>
+        </div>
+
+        <div class="panel" id="class-panel">
+            <div id="class-class" style="float: left;">5-Б</div><div id="class-teather" style="float: right;">Підзалупко Валентин Валерійович</div><br><br>
+            <dd id="class-list">
+                <dt id="class-list-item">Залупко Інокентій</dt>
+                <dt id="class-list-item">Доля Тарас</dt>
+                <dt id="class-list-item">Кавуновський Вадим</dt>
+            </dd>
+        </div>
+        <div class="panel" id="school-panel">
+            <p>Викладачі</p>
+            <dd id="teacher-list">
+                <dt id="teacher-list-item">Підзалупко Валентин</dt>
+                <dt id="teacher-list-item">Вермахт Кізім</dt>
+                <dt id="teacher-list-item">Матека Сосан</dt>
+            </dd>
+        </div>
+        <div class="panel" id="profile-panel">
+            <img src="Icon.png" id="profile-image" style="float: left; width: 300px; height: 300px;">
+            <div style="float: left;">
+            <p id="profile-name">Доля Тарас</p>
+            <p id="profile-phone">88005553535</p>
+            <p id="profile-class">5-Б</p>
+            </div>
+        </div>
+    </div>
+</div>   
+</body>
+</html>

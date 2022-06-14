@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<p th:text="${student.getName()}"></p>
+<p th:text="${student.getSurname()}"></p>
+<p th:text="${student.getPhone()}"></p>
+<p th:text="${student.getClass_id()}"></p>
+
+<br>
+
+<form th:method="DELETE" th:action="@{delete(studentId = ${student.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+</body>
+</html>
