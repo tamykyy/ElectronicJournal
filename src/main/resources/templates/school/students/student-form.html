@@ -36,15 +36,49 @@
 
     <div class="panels">
         <div class="panel" id="school-panel">
-            <input type="button" value="Назад" onclick="window.location.href = '/me/school/classes'"/>
+            <input type="button" value="Назад" onclick="window.location.href = '/me/school/students'"/>
             <h2>Adding form:</h2>
-            <form th:method="${method}" th:action="@{/me/school/class/save}" th:object="${class}">
+            <form th:method="method" th:action="@{/me/school/student/save}" th:object="${student}">
 
                 <input type="hidden" th:field="*{id}"/>
                 <br>
 
-                <label for="name">Назва класу --> </label>
+                <label for="name">Імʼя --> </label>
                 <input type="text" th:field="*{name}" id="name"/>
+                <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
+
+                <br><br>
+
+                <label for="surname">Прізвище --> </label>
+                <input type="text" th:field="*{surname}" id="surname"/>
+                <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">surname error</div>
+
+                <br><br>
+
+                <label for="phone">Телефон --> </label>
+                <input type="text" th:field="*{phone}" id="phone"/>
+                <div style="color: red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone error</div>
+
+                <br><br>
+
+                <label for="email">Пошта --> </label>
+                <input type="text" th:field="*{email}" id="email"/>
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</div>
+
+                <br><br>
+
+                <label for="password">Пароль --> </label>
+                <input type="text" th:field="*{password}" id="password"/>
+                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+
+                <br><br>
+
+                <label for="classSelect">Клас: </label>
+                <select id="classSelect" th:name="selectedClass">
+                    <option th:value="0">none</option>
+                    <option th:each="class : ${classList}" th:value="${class.getId()}"
+                            th:text="${class.getName()}"></option>
+                </select>
 
                 <br><br>
 

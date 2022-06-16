@@ -9,8 +9,10 @@ import edu.team.electronic_journal.service.intefaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller()
@@ -42,7 +44,7 @@ public class SubjectController {
     public String showAllSubjects(Model model) {
         List<Subject> subjectList = subjectService.getAllSubjects();
         model.addAttribute("subjectList", subjectList);
-        return "school/subjects";
+        return "school/subjects/subjects";
     }
 
     @GetMapping("/school/subject/{id}")
@@ -50,7 +52,7 @@ public class SubjectController {
         Subject subject = subjectService.getSubjectById(id);
         System.out.println(subject.getTeachersList());
         model.addAttribute("subject", subject);
-        return "school/subject-info";
+        return "school/subjects/subject-info";
     }
 
     @GetMapping("/school/subject/add")
@@ -58,7 +60,7 @@ public class SubjectController {
         Subject subject = new Subject();
         model.addAttribute("subject", subject);
         model.addAttribute("method", RequestMethod.POST);
-        return "school/subject-form";
+        return "school/subjects/subject-form";
     }
 
     @GetMapping("/school/subject/edit/{id}")
@@ -66,11 +68,13 @@ public class SubjectController {
         Subject subject = subjectService.getSubjectById(id);
         model.addAttribute("subject", subject);
         model.addAttribute("method", RequestMethod.PUT);
-        return "school/subject-form";
+        return "school/subjects/subject-form";
     }
 
     @RequestMapping(value = "/school/subject/save", method = {RequestMethod.POST, RequestMethod.PUT})
-    public String saveSubject(@ModelAttribute("subject") Subject subject) {
+    public String saveSubject(@Valid @ModelAttribute("subject") Subject subject, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "school/subjects/subject-form";
         subjectService.saveSubject(subject);
         return "redirect:/me/school/subjects";
     }
@@ -83,7 +87,7 @@ public class SubjectController {
 
         model.addAttribute("subject", subject);
         model.addAttribute("teacherList", teacherList);
-        return "school/subject-add-teachers-form";
+        return "school/subjects/subject-add-teachers-form";
     }
 
     @PutMapping("/school/subject/{id}/save")
@@ -105,7 +109,7 @@ public class SubjectController {
 
         model.addAttribute("subject", subject);
         model.addAttribute("classList", classList);
-        return "school/subject-add-class-form";
+        return "school/subjects/subject-add-class-form";
     }
 
     @PutMapping("/school/subject/{id}/add-class/save")

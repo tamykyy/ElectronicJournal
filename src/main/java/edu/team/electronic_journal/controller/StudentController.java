@@ -7,9 +7,11 @@ import edu.team.electronic_journal.service.intefaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller()
@@ -26,14 +28,14 @@ public class StudentController {
     public String showAllStudents(Model model) {
         List<Student> studentList = studentService.getAllStudents();
         model.addAttribute("studentList", studentList);
-        return "school/students";
+        return "school/students/students";
     }
 
     @GetMapping("/student/{id}")
     public String showStudent(Model model, @PathVariable("id") int id) {
         Student student = studentService.getStudentById(id);
         model.addAttribute("student", student);
-        return "school/student-info";
+        return "school/students/student-info";
     }
 
     @GetMapping("/student/add")
@@ -44,7 +46,7 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.POST);
-        return "school/student-form";
+        return "school/students/student-form";
     }
 
     @GetMapping("student/edit/{id}")
@@ -55,12 +57,15 @@ public class StudentController {
         model.addAttribute("student", student);
         model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.PUT);
-        return "school/student-form";
+        return "school/students/student-form";
     }
 
     @RequestMapping(value = "student/save",method = {RequestMethod.POST, RequestMethod.PUT})
-    public String saveStudent(@ModelAttribute("student") Student student,
+    public String saveStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
                               @RequestParam(value = "selectedClass") int class_id) {
+
+        if (bindingResult.hasErrors())
+            return "school/students/student-form";
 
         student.setRole("ROLE_STUDENT");
         if (class_id != 0) {

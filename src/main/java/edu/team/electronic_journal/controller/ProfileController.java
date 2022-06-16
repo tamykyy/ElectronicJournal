@@ -15,7 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/me")
@@ -45,17 +48,26 @@ public class ProfileController {
     public String changeUserInfo(Model model) {
 
         IsUser user = authenticatedUser.getAuthenticatedUser();
+
         model.addAttribute("userInfo", user);
         model.addAttribute("userChildClass", user.getClass().toString());
-        model.addAttribute("class_id", user.getClass_id().getId());
+        model.addAttribute("class_id", 0);
+        if (user.getClass_id() != null)
+            model.addAttribute("class_id", user.getClass_id().getId());
+
 
         return "profile/profile-change-form";
     }
 
     @PutMapping("profile/edit/save-user")
-    public String saveUser(@ModelAttribute("userInfo") IsUser user,
+    public String saveUser(@Valid @ModelAttribute("userInfo") IsUser user,
+                           BindingResult bindingResult,
                            @ModelAttribute("userChildClass") String s,
                            @ModelAttribute("class_id") int class_id) {
+
+        if (bindingResult.hasErrors()) {
+            return "profile/profile-change-form";
+        }
 
         if (s.endsWith(Student.class.toString())) {
             Student student = new Student();

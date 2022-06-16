@@ -9,8 +9,10 @@ import edu.team.electronic_journal.service.intefaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller()
@@ -46,14 +48,14 @@ public class ClassController {
     public String showAllClass(Model model) {
         List<Class> classList = classService.getAllClass();
         model.addAttribute("classList", classList);
-        return "school/classes";
+        return "school/classes/classes";
     }
 
     @GetMapping("/school/class/{id}")
     public String showClass(@PathVariable("id") int id, Model model) {
         Class aClass = classService.getClassById(id);
         model.addAttribute("class", aClass);
-        return "school/class-info";
+        return "school/classes/class-info";
     }
 
 
@@ -62,7 +64,7 @@ public class ClassController {
         Class Class = new Class();
         model.addAttribute("class", Class);
         model.addAttribute("method", RequestMethod.POST);
-        return "school/class-form";
+        return "school/classes/class-form";
     }
 
     @GetMapping("/school/class/edit/{id}")
@@ -70,11 +72,13 @@ public class ClassController {
         Class Class = classService.getClassById(id);
         model.addAttribute("class", Class);
         model.addAttribute("method", RequestMethod.PUT);
-        return "school/class-form";
+        return "school/classes/class-form";
     }
 
     @RequestMapping(value = "/school/class/save", method = {RequestMethod.POST, RequestMethod.PUT})
-    public String saveClass(@ModelAttribute("class") Class Class) {
+    public String saveClass(@Valid @ModelAttribute("class") Class Class, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "school/class-form";
         classService.saveClass(Class);
         return "redirect:/me/school/classes";
     }
@@ -87,7 +91,7 @@ public class ClassController {
 
         model.addAttribute("class", aClass);
         model.addAttribute("studentList", studentList);
-        return "school/class-add-student-form";
+        return "school/classes/class-add-student-form";
     }
 
     @PutMapping("/school/class/{id}/save")

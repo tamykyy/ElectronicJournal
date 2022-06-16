@@ -7,8 +7,10 @@ import edu.team.electronic_journal.service.intefaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.* ;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller()
@@ -26,14 +28,14 @@ public class TeacherController {
         List<Teacher> teacherList = teacherService.getAllTeacher();
         model.addAttribute("teacherList", teacherList);
 
-        return "school/teachers";
+        return "school/teachers/teachers";
     }
 
     @GetMapping("/teacher/{id}")
     public String showTeacher(@PathVariable("id") int id, Model model) {
         Teacher teacher = teacherService.getTeacherById(id);
         model.addAttribute("teacher", teacher);
-        return "school/teacher-info";
+        return "school/teachers/teacher-info";
     }
 
     @GetMapping("/teacher/add")
@@ -44,7 +46,7 @@ public class TeacherController {
         model.addAttribute("teacher", teacher);
         model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.POST);
-        return "school/teacher-form";
+        return "school/teachers/teacher-form";
     }
 
     @GetMapping("teacher/edit/{id}")
@@ -55,12 +57,15 @@ public class TeacherController {
         model.addAttribute("teacher", teacher);
         model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.PUT);
-        return "school/teacher-form";
+        return "school/teachers/teacher-form";
     }
 
     @RequestMapping(value = "/teacher/save", method = {RequestMethod.POST, RequestMethod.PUT})
-    public String saveTeacher(@ModelAttribute("teacher") Teacher teacher,
+    public String saveTeacher(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult,
                               @RequestParam(value = "selectedClass") int class_id) {
+
+        if (bindingResult.hasErrors())
+            return "school/teachers/teacher-form";
 
         teacher.setRole("ROLE_TEACHER");
         if (class_id != 0) {

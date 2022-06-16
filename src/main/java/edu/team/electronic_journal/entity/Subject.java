@@ -1,6 +1,7 @@
 package edu.team.electronic_journal.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Subject {
     private int id;
 
     @Column(name = "name")
+    @NotBlank(message = "Це обовʼязкове поле")
     private String name;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
