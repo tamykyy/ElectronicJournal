@@ -13,27 +13,27 @@ public class IsUser implements Cloneable{
     private int id;
 
     @Column(name = "name")
-    @NotBlank(message = "Name should not be empty")
-    @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
+    @NotBlank(message = "Імʼя це обовʼязкове поле")
+    @Size(min = 2, max = 20, message = "Імʼя повинно бути від 2 до 20 символів")
     private String name;
 
     @Column(name = "surname")
-    @NotBlank(message = "Surname should not be empty")
-    @Size(min = 2, max = 25, message = "Surname should be between 2 and 25 characters")
+    @NotBlank(message = "Прізвище це обовʼязкове поле")
+    @Size(min = 2, max = 25, message = "Прізвище повинно бути від 2 до 25 символів")
     private String surname;
 
     @Column(name = "email")
-    @NotBlank(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Пошта це обовʼязкове поле")
+    @Email(message = "Пошта повинна пʼбути валідною")
     private String email;
 
     @Column(name = "password")
-    @NotBlank(message = "Password should not be empty")
-    @Size(min = 3, max = 30, message = "Password should be between 3 and 30 characters")
+    @NotBlank(message = "Пароль це обовʼязкове поле")
+    @Size(min = 3, max = 30, message = "Пароль повинен бути від 3 до 30 символів")
     private String password;
 
     @Column(name = "phone")
-    @Pattern(regexp="(^[0-9]{10})", message = "Phone should be valid")
+    @Pattern(regexp="(^[0-9]{10})", message = "Номер телефона повинен бути валідним")
     private String phone;
 
     @Column(name = "role")
