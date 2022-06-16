@@ -1,6 +1,10 @@
 package edu.team.electronic_journal.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @MappedSuperclass
 public class IsUser implements Cloneable{
@@ -9,18 +13,27 @@ public class IsUser implements Cloneable{
     private int id;
 
     @Column(name = "name")
+    @NotBlank(message = "Name should not be empty")
+    @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
     private String name;
 
     @Column(name = "surname")
+    @NotBlank(message = "Surname should not be empty")
+    @Size(min = 2, max = 25, message = "Surname should be between 2 and 25 characters")
     private String surname;
 
     @Column(name = "email")
+    @NotBlank(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "password")
+    @NotBlank(message = "Password should not be empty")
+    @Size(min = 3, max = 30, message = "Password should be between 3 and 30 characters")
     private String password;
 
     @Column(name = "phone")
+    @Pattern(regexp="(^[0-9]{10})", message = "Phone should be valid")
     private String phone;
 
     @Column(name = "role")
