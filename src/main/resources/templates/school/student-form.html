@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="grades" name="group" type="radio">
+    <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
+    <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
+    <input class="radio" id="school" name="group" type="radio" checked>
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
+
+    <div class="tabs">
+        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">
+            <div class="dropdown">Школа
+                <div class="dropdown-content">
+                    <p><a href="/me/school/teachers">Вчителя</a></p>
+                    <p><a href="/me/school/classes">Класи</a></p>
+                    <p><a href="/me/school/students">Учні</a></p>
+                    <p><a href="/me/school/subjects">Предмети</a></p>
+                </div>
+            </div>
+        </label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="school-panel">
+            <input type="button" value="Назад" onclick="window.location.href = '/me/school/students'"/>
+            <h2>Adding form:</h2>
+            <form th:method="method" th:action="@{/me/school/student/save}" th:object="${student}">
+
+                <input type="hidden" th:field="*{id}"/>
+                <br>
+
+                <label for="name">Імʼя --> </label>
+                <input type="text" th:field="*{name}" id="name"/>
+
+                <br><br>
+
+                <label for="surname">Прізвище --> </label>
+                <input type="text" th:field="*{surname}" id="surname"/>
+
+                <br><br>
+
+                <label for="phone">Телефон --> </label>
+                <input type="text" th:field="*{phone}" id="phone"/>
+
+                <br><br>
+
+                <label for="email">Пошта --> </label>
+                <input type="text" th:field="*{email}" id="email"/>
+
+                <br><br>
+
+                <label for="password">Пароль --> </label>
+                <input type="text" th:field="*{password}" id="password"/>
+
+                <br><br>
+
+                <label for="classSelect">Клас: </label>
+                <select id="classSelect" th:name="selectedClass">
+                    <option th:value="0">none</option>
+                    <option th:each="class : ${classList}" th:value="${class.getId()}"
+                            th:text="${class.getName()}"></option>
+                </select>
+
+                <br><br>
+
+                <input type="submit" value="Save"> <br>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

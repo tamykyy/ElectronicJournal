@@ -20,7 +20,7 @@ public class GradeController {
     public String showAllGrades(Model model) {
         List<Grade> gradeList = gradeService.getAllGrades();
         model.addAttribute("gradeList", gradeList);
-        return null;
+        return "grades";
     }
 
     @GetMapping("/{id}")

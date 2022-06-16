@@ -1,6 +1,8 @@
 package edu.team.electronic_journal.controller;
 
+import edu.team.electronic_journal.entity.Class;
 import edu.team.electronic_journal.entity.Teacher;
+import edu.team.electronic_journal.service.intefaces.ClassService;
 import edu.team.electronic_journal.service.intefaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,50 +12,69 @@ import org.springframework.web.bind.annotation.* ;
 import java.util.List;
 
 @Controller()
-@RequestMapping("/teacher")
+@RequestMapping("me/school")
 public class TeacherController {
+
     @Autowired
     private TeacherService teacherService;
 
-    @GetMapping()
-    public String showAllTeacher(Model model) {
+    @Autowired
+    private ClassService classService;
+
+    @GetMapping("/teachers")
+    public String showAllTeachers(Model model) {
         List<Teacher> teacherList = teacherService.getAllTeacher();
         model.addAttribute("teacherList", teacherList);
-        return null;
+
+        return "school/teachers";
     }
 
-    @GetMapping("/{id}")
-    public String showTeacher(Model model, @PathVariable("id") int id) {
+    @GetMapping("/teacher/{id}")
+    public String showTeacher(@PathVariable("id") int id, Model model) {
         Teacher teacher = teacherService.getTeacherById(id);
         model.addAttribute("teacher", teacher);
-        return null;
+        return "school/teacher-info";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/teacher/add")
     public String addTeacher(Model model) {
         Teacher teacher = new Teacher();
+        List<Class> classList = classService.getAllClass();
+
         model.addAttribute("teacher", teacher);
+        model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.POST);
-        return null;
+        return "school/teacher-form";
     }
 
-    @GetMapping("/edit")
-    public String changeTeacher(@RequestParam("teacherId") int id, Model model) {
+    @GetMapping("teacher/edit/{id}")
+    public String changeTeacher(@PathVariable("id") int id, Model model) {
         Teacher teacher = teacherService.getTeacherById(id);
+        List<Class> classList = classService.getAllClass();
+
         model.addAttribute("teacher", teacher);
+        model.addAttribute("classList", classList);
         model.addAttribute("method", RequestMethod.PUT);
-        return null;
+        return "school/teacher-form";
     }
 
-    @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
-    public String saveTeacher(@ModelAttribute("teacher") Teacher teacher) {
+    @RequestMapping(value = "/teacher/save", method = {RequestMethod.POST, RequestMethod.PUT})
+    public String saveTeacher(@ModelAttribute("teacher") Teacher teacher,
+                              @RequestParam(value = "selectedClass") int class_id) {
+
+        teacher.setRole("ROLE_TEACHER");
+        if (class_id != 0) {
+            Class aClass = classService.getClassById(class_id);
+            teacher.setClass_id(aClass);
+        }
         teacherService.saveTeacher(teacher);
-        return null;
+        return "redirect:/me/school/teachers";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteTeacher(@RequestParam("teacherId") int id) {
+
+    @DeleteMapping("teacher/delete/{id}")
+    public String deleteTeacher(@PathVariable("id") int id) {
         teacherService.deleteTeacher(id);
-        return null;
+        return "redirect:/me/school/teachers";
     }
 }

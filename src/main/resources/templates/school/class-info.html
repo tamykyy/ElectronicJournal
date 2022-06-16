@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="grades" name="group" type="radio">
+    <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
+    <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
+    <input class="radio" id="school" name="group" type="radio" checked>
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
+
+    <div class="tabs">
+        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">
+            <div class="dropdown">Школа
+                <div class="dropdown-content">
+                    <p><a href="/me/school/teachers">Вчителя</a></p>
+                    <p><a href="/me/school/classes">Класи</a></p>
+                    <p><a href="/me/school/students">Учні</a></p>
+                    <p><a href="/me/school/subjects">Предмети</a></p>
+                </div>
+            </div>
+        </label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="school-panel">
+            <input type="button" value="Назад" onclick="window.location.href = '/me/school/classes'"/>
+
+            <br>
+
+            <div id="class-class" style="float: left;" th:text="${class.getName()}"></div>
+
+            <th:block th:switch="${class.getTeacher()}">
+                <div th:case="null">
+                    <div class="class-teacher" style="float: right;">Немає класного керівника</div>
+                </div>
+                <div th:case="*">
+                    <a th:href="@{/me/school/teacher/{id}(id=${class.getTeacher().getId()})}">
+                        <div class="class-teacher" style="float: right;"
+                             th:text="${class.getTeacher().getName()} + ' ' + ${class.getTeacher().getSurname()}"></div>
+                    </a>
+                </div>
+            </th:block>
+
+            <br><br>
+            <div th:each="st : ${class.getStudentsList()}">
+                <a th:href="@{/me/school/student/{id}(id=${st.getId})}"><p th:text="${st.getName} + ' ' + ${st.getSurname}"></p></a>
+            </div>
+
+            <div sec:authorize="hasRole('TEACHER')">
+                <input type="button" value="Додати учня"
+                       th:onclick="'window.location.href = \'' + @{{id}/add-student(id=${class.getId()})} + '\''"/>
+                <br><br>
+                <form th:method="DELETE" th:action="@{delete/{id}(id=${class.getId()})}">
+                    <input type="submit" value="Видалити класс"/>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
