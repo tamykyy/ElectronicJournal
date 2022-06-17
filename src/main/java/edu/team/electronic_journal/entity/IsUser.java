@@ -29,7 +29,7 @@ public class IsUser{
 
     @Column(name = "password")
     @NotBlank(message = "Пароль це обовʼязкове поле")
-    @Size(min = 3, max = 30, message = "Пароль повинен бути від 3 до 30 символів")
+    @Size(min = 3, max = 80, message = "Пароль повинен бути від 3 до 80 символів")
     private String password;
 
     @Column(name = "phone")

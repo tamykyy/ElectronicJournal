@@ -5,6 +5,7 @@ import edu.team.electronic_journal.entity.Teacher;
 import edu.team.electronic_journal.service.intefaces.ClassService;
 import edu.team.electronic_journal.service.intefaces.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class TeacherController {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/teachers")
     public String showAllTeachers(Model model) {

@@ -39,7 +39,7 @@
             <input type="button" value="Назад" onclick="window.location.href = '/me'"/>
             <h2>User info:</h2>
             <form th:method="PUT"
-                  th:action="@{edit/save-user(userChildClass = ${userChildClass}, class_id = ${class_id})}"
+                  th:action="@{/me/profile/edit/save-user(userChildClass = ${userChildClass}, class_id = ${class_id})}"
                   th:object="${userInfo}">
 
                 <input type="hidden" th:field="*{id}"/>

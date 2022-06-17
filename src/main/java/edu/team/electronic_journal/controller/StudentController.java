@@ -5,6 +5,7 @@ import edu.team.electronic_journal.entity.Student;
 import edu.team.electronic_journal.service.intefaces.ClassService;
 import edu.team.electronic_journal.service.intefaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,9 @@ public class StudentController {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/students")
     public String showAllStudents(Model model) {
@@ -49,7 +53,7 @@ public class StudentController {
         return "school/students/student-form";
     }
 
-    @GetMapping("student/edit/{id}")
+    @GetMapping("/student/edit/{id}")
     public String changeStudent(@PathVariable("id") int id, Model model) {
         Student student = studentService.getStudentById(id);
         List<Class> classList = classService.getAllClass();
@@ -64,6 +68,7 @@ public class StudentController {
     public String saveStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
                               @RequestParam(value = "selectedClass") int class_id) {
 
+
         if (bindingResult.hasErrors())
             return "school/students/student-form";
 
@@ -77,9 +82,9 @@ public class StudentController {
     }
 
 
-    @DeleteMapping(value = "/delete")
-    public String deleteStudents(@RequestParam("studentId") int id) {
+    @DeleteMapping(value = "/student/delete/{id}")
+    public String deleteStudents(@PathVariable("id") int id) {
         studentService.deleteStudent(id);
-        return "redirect:/students";
+        return "redirect:/me/school/students";
     }
 }

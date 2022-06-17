@@ -1,18 +1,15 @@
 package edu.team.electronic_journal.controller;
 
-import edu.team.electronic_journal.entity.Class;
 import edu.team.electronic_journal.entity.IsUser;
 import edu.team.electronic_journal.entity.Student;
 import edu.team.electronic_journal.entity.Teacher;
 import edu.team.electronic_journal.security.AuthenticatedUser;
-import edu.team.electronic_journal.security.IsUserDetails;
 import edu.team.electronic_journal.service.intefaces.ClassService;
 import edu.team.electronic_journal.service.intefaces.StudentService;
 import edu.team.electronic_journal.service.intefaces.TeacherService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +33,9 @@ public class ProfileController {
     @Autowired
     private AuthenticatedUser authenticatedUser;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @GetMapping("")
     public String goToProfileChapter(Model model) {
 
@@ -48,6 +48,7 @@ public class ProfileController {
     public String changeUserInfo(Model model) {
 
         IsUser user = authenticatedUser.getAuthenticatedUser();
+        user.setPassword("");
 
         model.addAttribute("userInfo", user);
         model.addAttribute("userChildClass", user.getClass().toString());
@@ -69,6 +70,8 @@ public class ProfileController {
             return "profile/profile-change-form";
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         if (s.endsWith(Student.class.toString())) {
             Student student = new Student();
             BeanUtils.copyProperties(user, student);
@@ -80,6 +83,7 @@ public class ProfileController {
             teacher.setClass_id(classService.getClassById(class_id));
             teacherService.saveTeacher(teacher);
         }
+
         return "redirect:/me";
     }
 

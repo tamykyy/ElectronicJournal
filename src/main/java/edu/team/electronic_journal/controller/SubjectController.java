@@ -123,8 +123,8 @@ public class SubjectController {
         return "redirect:/me/school/classes";
     }
 
-    @DeleteMapping("/school/subject/delete")
-    public String deleteClass(@RequestParam("classId") int id) {
+    @DeleteMapping("/school/subject/delete/{id}")
+    public String deleteClass(@PathVariable("id") int id) {
         subjectService.deleteSubject(id);
         return "redirect:/me/school/subjects";
     }

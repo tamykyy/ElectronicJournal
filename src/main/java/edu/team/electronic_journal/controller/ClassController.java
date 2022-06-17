@@ -105,8 +105,8 @@ public class ClassController {
         return "redirect:/me/school/classes";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteClass(@RequestParam("classId") int id) {
+    @DeleteMapping("/school/class/delete/{id}")
+    public String deleteClass(@PathVariable("id") int id) {
         classService.deleteClass(id);
         return "redirect:/me/school/classes";
     }

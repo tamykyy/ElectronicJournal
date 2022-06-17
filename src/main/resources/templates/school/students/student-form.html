@@ -67,9 +67,7 @@
 
                 <br><br>
 
-                <label for="password">Пароль --> </label>
-                <input type="text" th:field="*{password}" id="password"/>
-                <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+                <input type="hidden" th:field="*{password}"/>
 
                 <br><br>
 

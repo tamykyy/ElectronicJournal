@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity @Table(name = "student")
 public class Student extends IsUser {
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "class_id")
     private Class class_id;
 
