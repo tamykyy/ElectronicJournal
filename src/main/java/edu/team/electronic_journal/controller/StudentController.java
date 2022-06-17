@@ -68,9 +68,12 @@ public class StudentController {
     public String saveStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult,
                               @RequestParam(value = "selectedClass") int class_id) {
 
-
         if (bindingResult.hasErrors())
             return "school/students/student-form";
+
+        if (student.getId() == 0) {
+            student.setPassword(passwordEncoder.encode(student.getPassword()));
+        }
 
         student.setRole("ROLE_STUDENT");
         if (class_id != 0) {

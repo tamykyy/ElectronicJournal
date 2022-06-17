@@ -71,6 +71,10 @@ public class TeacherController {
         if (bindingResult.hasErrors())
             return "school/teachers/teacher-form";
 
+        if (teacher.getId() == 0) {
+            teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        }
+
         teacher.setRole("ROLE_TEACHER");
         if (class_id != 0) {
             Class aClass = classService.getClassById(class_id);
@@ -81,7 +85,7 @@ public class TeacherController {
     }
 
 
-    @DeleteMapping("teacher/delete/{id}")
+    @DeleteMapping(value = "/teacher/delete/{id}")
     public String deleteTeacher(@PathVariable("id") int id) {
         teacherService.deleteTeacher(id);
         return "redirect:/me/school/teachers";

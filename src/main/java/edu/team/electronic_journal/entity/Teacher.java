@@ -7,7 +7,6 @@ import java.util.List;
 @Entity @Table(name = "teacher")
 public class Teacher extends IsUser {
 
-
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "class_id")
     private Class class_id;
@@ -20,6 +19,8 @@ public class Teacher extends IsUser {
     )
     private List<Subject> subjectsList;
 
+    public Teacher() {
+    }
 
     public void addSubjectToTeacher(Subject subject) {
         if(subjectsList == null) {

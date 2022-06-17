@@ -107,6 +107,11 @@ public class ClassController {
 
     @DeleteMapping("/school/class/delete/{id}")
     public String deleteClass(@PathVariable("id") int id) {
+        List<Student> studentList = studentService.getAllStudents();
+        for (Student st : studentList) {
+            st.setClass_id(null);
+            studentService.saveStudent(st);
+        }
         classService.deleteClass(id);
         return "redirect:/me/school/classes";
     }

@@ -11,14 +11,12 @@
 <input type="button" value="Log out" onclick="window.location.href = '/login'"/>
 
 <div class="warpper">
-    <input class="radio" id="grades" name="group" type="radio">
     <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
     <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
     <input class="radio" id="school" name="group" type="radio" checked>
     <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
 
     <div class="tabs">
-        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
         <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
         <label class="tab" id="class-tab" for="class">Мій клас</label>
         <label class="tab" id="school-tab" for="school">
@@ -38,27 +36,32 @@
         <div class="panel" id="school-panel">
             <input type="button" value="Назад" onclick="window.location.href = '/me/school/students'"/>
 
-            <img src="/Icon.png" id="profile-image" style="float: left; width: 300px; height: 300px;">
+            <table style="text-align: left; border-spacing: 2pc 1pc;">
+                <tr>
+                    <td>
+                        <img src="/Icon.png" id="profile-image" style="float: left; width: 300px; height: 300px;">
+                    </td>
+                    <td>
+                        <p th:text="${student.getName()} + ' ' + ${student.getSurname()}"></p>
+                        <p th:text="${student.getEmail()}"></p>
+                        <p th:text="${student.getPhone()}"></p>
 
+                        <div th:switch="${student.getClass_id()}">
+                            <p th:case="null">Немає класу</p>
+                            <p th:case="*" th:text="${student.getClass_id().getName()}"></p>
+                        </div>
 
-            <p th:text="${student.getName()} + ' ' + ${student.getSurname()}"></p>
-            <p th:text="${student.getEmail()}"></p>
-            <p th:text="${student.getPhone()}"></p>
-
-            <div th:switch="${student.getClass_id()}">
-                <p th:case="null">Немає класу</p>
-                <p th:case="*" th:text="${student.getClass_id().getName()}"></p>
-            </div>
-
-            <div sec:authorize="hasRole('TEACHER')">
-                <input type="button" value="Редагувати"
-                       th:onclick="'window.location.href = \'' + @{edit/{id}(id=${student.getId()})} + '\''"/>
-                <br><br>
-                <form th:method="DELETE" th:action="@{delete/{id}(id=${student.getId()})}">
-                    <input type="submit" value="Видалити учня"/>
-                </form>
-            </div>
-
+                        <div sec:authorize="hasRole('TEACHER')">
+                            <input type="button" value="Редагувати"
+                                   th:onclick="'window.location.href = \'' + @{edit/{id}(id=${student.getId()})} + '\''"/>
+                            <br><br>
+                            <form th:method="DELETE" th:action="@{delete/{id}(id=${student.getId()})}">
+                                <input type="submit" value="Видалити учня"/>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

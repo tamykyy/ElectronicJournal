@@ -11,14 +11,12 @@
 <input type="button" value="Log out" onclick="window.location.href = '/login'"/>
 
 <div class="warpper">
-    <input class="radio" id="grades" name="group" type="radio">
     <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
     <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
     <input class="radio" id="school" name="group" type="radio" checked>
     <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
 
     <div class="tabs">
-        <label class="tab" id="grades-tab" for="grades">Оцінки</label>
         <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
         <label class="tab" id="class-tab" for="class">Мій клас</label>
         <label class="tab" id="school-tab" for="school">
@@ -68,7 +66,14 @@
 
                 <br><br>
 
-                <input type="hidden" th:field="*{password}"/>
+                <div th:switch="*{password}">
+                    <div th:case="null">
+                        <label for="password">Пароль --> </label>
+                        <input type="text" th:field="*{password}" id="password"/>
+                        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+                    </div>
+                    <input th:case="*" type="hidden" th:field="*{password}"/>
+                </div>
 
                 <br><br>
 
