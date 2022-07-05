@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
+    <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
+    <input class="radio" id="school" name="group" type="radio" checked>
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
+
+    <div class="tabs">
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">
+            <div class="dropdown">Школа
+                <div class="dropdown-content">
+                    <p><a href="/me/school/teachers">Вчителя</a></p>
+                    <p><a href="/me/school/classes">Класи</a></p>
+                    <p><a href="/me/school/students">Учні</a></p>
+                    <p><a href="/me/school/subjects">Предмети</a></p>
+                </div>
+            </div>
+        </label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="school-panel">
+            <input type="button" value="Назад" onclick="window.location.href = '/me/school/classes'"/>
+            <h2>Додайте учня в клас </h2>
+
+            <form th:method="PUT" th:action="@{save}" th:object="${class}">
+
+            <p th:text="*{name} + ': '"></p>
+
+            <label for="studentSelection">Виберіть учня - </label>
+            <select id="studentSelection" th:name="selectedStudent">
+                <option th:value="0">none</option>
+
+                <th:block th:each="st : ${studentList}" th:switch="${st.getClass_id()}">
+                    <div th:case="null">
+                        <option th:value="${st.getId()}" th:text="${st.getName()} + ' ' + ${st.getSurname()}"></option>
+                    </div>
+                </th:block>
+
+            </select>
+
+            <input type="submit" value="Save"><br>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

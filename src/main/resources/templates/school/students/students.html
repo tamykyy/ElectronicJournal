@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
+    <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
+    <input class="radio" id="school" name="group" type="radio" checked>
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
+
+    <div class="tabs">
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">
+            <div class="dropdown">Школа
+                <div class="dropdown-content">
+                    <p><a href="/me/school/teachers">Вчителя</a></p>
+                    <p><a href="/me/school/classes">Класи</a></p>
+                    <p><a href="/me/school/students">Учні</a></p>
+                    <p><a href="/me/school/subjects">Предмети</a></p>
+                </div>
+            </div>
+        </label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="school-panel">
+            <h3>Учні:</h3>
+            <div th:each="student : ${studentList}">
+                <a th:href="@{/me/school/student/{id}(id=${student.getId()})}"><p
+                        th:text="${student.getName()} + ' ' +${student.getSurname()}"></p></a>
+            </div>
+
+            <div sec:authorize="hasRole('TEACHER')">
+                <input type="button" value="add" onclick="window.location.href = 'student/add'"/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/index.css" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+
+<input type="button" value="Log out" onclick="window.location.href = '/login'"/>
+
+<div class="warpper">
+    <input class="radio" id="subjects" name="group" type="radio" onclick="window.location.href = '/me/subjects'">
+    <input class="radio" id="class" name="group" type="radio" onclick="window.location.href = '/me/class'">
+    <input class="radio" id="school" name="group" type="radio" checked>
+    <input class="radio" id="profile" name="group" type="radio" onclick="window.location.href = '/me'">
+
+    <div class="tabs">
+        <label class="tab" id="subjects-tab" for="subjects">Предмети</label>
+        <label class="tab" id="class-tab" for="class">Мій клас</label>
+        <label class="tab" id="school-tab" for="school">
+            <div class="dropdown">Школа
+                <div class="dropdown-content">
+                    <p><a href="/me/school/teachers">Вчителя</a></p>
+                    <p><a href="/me/school/classes">Класи</a></p>
+                    <p><a href="/me/school/students">Учні</a></p>
+                    <p><a href="/me/school/subjects">Предмети</a></p>
+                </div>
+            </div>
+        </label>
+        <label class="tab" id="profile-tab" for="profile">Профіль</label>
+    </div>
+
+    <div class="panels">
+        <div class="panel" id="school-panel">
+            <input type="button" value="Назад" onclick="window.location.href = '/me/school/subjects'"/>
+
+            <table style="text-align: left; border-spacing: 1pc;">
+                <tr>
+                    <td>
+                        <div id="class-class" style="float: left;">
+                            <h3 th:text="${subject.getName()}"></h3>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Викладачі: </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th:block th:switch="${#lists.isEmpty(subject.getTeachersList())}">
+                            <div th:case="true">
+                                <p>Немає викладачів</p>
+                            </div>
+                            <div th:case="*">
+                                <div th:each="teacher : ${subject.getTeachersList()}">
+
+                                    <a th:href="@{/me/school/teacher/{id}(id=${teacher.getId()})}">
+                                        <p th:text="${teacher.getName()} + ' ' + ${teacher.getSurname()}"></p>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </th:block>
+                    </td>
+
+                    <td>
+                        <div sec:authorize="hasRole('TEACHER')">
+                            <input type="button" value="додати викладача"
+                                   th:onclick="'window.location.href = \'' + @{{id}/add-teacher(id=${subject.getId()})} + '\''"/>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>Вивчають:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th:block th:switch="${#lists.isEmpty(subject.getClassList())}">
+                            <div th:case="true">
+                                <p>Немає класів</p>
+                            </div>
+                            <div th:case="*">
+                                <div th:each="class : ${subject.getClassList()}">
+
+                                    <a th:href="@{/me/school/class/{id}(id=${class.getId()})}">
+                                        <p th:text="${class.getName()}"></p>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </th:block>
+                    </td>
+                    <td>
+                        <div sec:authorize="hasRole('TEACHER')">
+                            <input type="button" value="додати клас"
+                                   th:onclick="'window.location.href = \'' + @{{id}/add-class(id=${subject.getId()})} + '\''"/>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <br>
+                        <div sec:authorize="hasRole('TEACHER')">
+                            <form th:method="DELETE" th:action="@{delete/{id}(id=${subject.getId()})}">
+                                <input type="submit" value="Видалити предмет"/>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
